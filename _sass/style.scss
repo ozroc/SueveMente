@@ -1,0 +1,114 @@
+---
+---
+
+// VARIABLES DE COLOR Y TEXTURA
+$color-bg: #f4f4f4; // Concreto pulido muy claro
+$color-text: #333;
+$color-accent: #555; // Gris concreto medio
+$font-main: 'Montserrat', sans-serif;
+
+// 1. ESTILOS BASE Y HERO
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: $font-main;
+    color: $color-text;
+    background-color: $color-bg;
+    overflow-x: hidden;
+}
+
+#hero-container {
+    position: relative;
+    width: 100%;
+    height: 100vh; // Ocupa toda la pantalla inicial
+    overflow: hidden;
+    z-index: 10;
+}
+
+#hero-image {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    position: fixed; // Fijo para el efecto parallax
+    top: 0;
+    left: 0;
+    transition: transform 0.1s ease-out; // Para un scroll suave
+}
+
+// Marca de agua original
+.veo-logo {
+    position: absolute;
+    bottom: 20px;
+    right: 30px;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+// 2. ANIMACIÓN DE NIEBLA (SCROLL FOG)
+.fog-layer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    // Usamos una imagen de niebla transparente o un degradado complejo
+    background-image: url('{{ site.baseurl }}/assets/images/fog_overlay.png'); 
+    background-size: cover;
+    background-repeat: repeat-x;
+    opacity: 0; // Empieza invisible
+    transition: opacity 0.5s ease;
+    pointer-events: none; // No interfiere con clics
+    z-index: 5;
+}
+
+// 3. CONTENIDO DEL BLOG
+#main-content {
+    position: relative;
+    z-index: 20; // Por encima del hero fijo
+    margin-top: 100vh; // Empieza después de la imagen hero
+    background-color: $color-bg;
+    padding: 40px 0;
+    // Añadimos una sutil textura de fondo (opcional)
+    background-image: url('{{ site.baseurl }}/assets/images/subtle-clouds-bg.svg');
+    background-attachment: fixed;
+}
+
+.wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+// 4. TARJETAS DE ARTÍCULOS (DÉJÀ VU BRUTALISTA)
+.post-card {
+    background: white;
+    border: 2px solid $color-accent;
+    padding: 20px;
+    margin-bottom: 30px;
+    position: relative;
+    overflow: hidden;
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
+
+    &:hover {
+        transform: translateY(-3px);
+        box-shadow: 10px 10px 0px rgba(0,0,0,0.1); // Sombra brutalista
+
+        // Efecto niebla rápido al hover
+        &::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 300%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+            animation: cloudPass 1s ease-out;
+        }
+    }
+}
+
+// Definición de la animación de niebla rápida
+@keyframes cloudPass {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
